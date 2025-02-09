@@ -24,7 +24,7 @@ class JWTAuthController extends Controller
 
         // Se o validador falhar, devolvemos uma resposta com os erros
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+            return response()->json(['errors' => $validator->errors()], 400);
         }
 
         // Criamos um novo utilizador
@@ -45,9 +45,15 @@ class JWTAuthController extends Controller
     {
         $credentials = $request->only('email', 'password'); // Obtemos as credenciais do utilizador
 
+        // Check if the email exists
+        $user = User::where('email', $credentials['email'])->first();
+        if (!$user) {
+            return response()->json(['error' => 'Email not registered'], 404);
+        }
+
         try {
             if(!$token = JWTAuth::attempt($credentials)) { // Tentamos autenticar o utilizador
-                return response()->json(['error' => 'invalid_credentials'], 400); // Se as credenciais estiverem erradas, devolvemos um erro
+                return response()->json(['error' => 'Invalid credentials'], 400); // Se as credenciais estiverem erradas, devolvemos um erro
             }
 
             $user = JWTAuth::user(); // Obtemos o utilizador autenticado
@@ -65,7 +71,7 @@ class JWTAuthController extends Controller
                 return response()->json(['User not found'], 404); // Se o utilizador não for encontrado, devolvemos um erro
             }
         } catch (JWTException $e) {
-            return response()->json(['Token inválido'], $e->getStatusCode()); // Se o token estiver expirado, devolvemos um erro
+            return response()->json(['error' => 'Token inválido', 'message' => $e->getMessage()], 500); // Se o token estiver expirado, devolvemos um erro
         }
 
         return response()->json(compact('user')); // Devolvemos o utilizador
