@@ -6,7 +6,7 @@
 
 ✔ Dynamic Question Fetching – Provides game questions via API 📜
 
-✔ User Authentication & Authorization – Secure access control with Laravel Sanctum/JWT 🔒
+✔ User Authentication & Authorization – Secure access control with Laravel JWT 🔒
 
 ✔ User Management – Register, login, and track player progress 👥
 
