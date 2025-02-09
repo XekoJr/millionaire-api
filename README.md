@@ -11,3 +11,4 @@
 ✔ User Management – Register, login, and track player progress 👥
 
 ✔ Secure Endpoints – Some actions require authentication
+
