@@ -5,7 +5,7 @@ use App\Http\Controllers\JWTAuthController;
 use App\Http\Middleware\JwtMiddleware;
 use App\Http\Controllers\QuestionController;
 
-Route::post('register', [JWTAuthController::class, 'register']);
+Route::post('register', [JWTAuthController::class, 'register'])->middleware('throttle:5,15');
 Route::post('login', [JWTAuthController::class, 'login']);
 
 Route::middleware([JwtMiddleware::class])->group(function () {
