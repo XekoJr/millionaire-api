@@ -29,9 +29,9 @@ class JWTAuthController extends Controller
 
         // Criamos um novo utilizador
         $user = User::create([
-            'name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'password' => Hash::make($request->get('password')), // Em vez de utilizarmos o método padrão de encriptação do Laravel, utilizamos o Hash para encriptar a password
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')), // Em vez de utilizarmos o método padrão de encriptação do Laravel, utilizamos o Hash para encriptar a password
         ]);
 
         $token = JWTAuth::fromUser($user); // Criamos um token JWT para o utilizador
